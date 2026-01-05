@@ -20,10 +20,11 @@
     "quote": "Test d'animation open-source.",
     "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4"
   },
-{
+  {
     "id": 4,
     "keywords": ["coffee", "cafe", "closer"],
     "title": "Glengarry Glen Ross",
     "quote": "Coffee is for closers!",
     "videoUrl": "https://ia801509.us.archive.org/15/items/coffee-is-for-closers/coffee.mp4"
   }
+]
