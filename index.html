@@ -5,75 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipFound | Viral Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        body { background-color: #050505; color: white; font-family: sans-serif; }
         .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 20px rgba(57, 255, 20, 0.2); }
-        .video-container { position: relative; width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid #222; }
-        .gradient-text { 
-            background: linear-gradient(to right, #fff, #39ff14); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            padding: 0 10px; 
-        }
+        .video-container { width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid #222; }
+        .gradient-text { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
     </style>
 </head>
-<body class="flex flex-col items-center p-4 md:p-10 min-h-screen">
+<body class="flex flex-col items-center p-6 min-h-screen">
 
-    <header class="mt-8 mb-10 text-center w-full px-4">
-        <h1 class="text-5xl md:text-7xl font-black tracking-tighter italic gradient-text">CLIPFOUND</h1>
-        <br>
-        <div class="bg-green-500 text-black text-[10px] md:text-[12px] font-bold px-4 py-1.5 rounded-full inline-block mt-4 tracking-widest uppercase">
-            Alpha v1.3 • Wall Street Live
-        </div>
+    <header class="mt-12 mb-12 text-center">
+        <h1 class="text-6xl italic gradient-text">CLIPFOUND</h1>
+        <div class="bg-green-500 text-black text-[10px] font-bold px-3 py-1 rounded-full mt-4 uppercase tracking-widest">Alpha v1.4 • Native Host</div>
     </header>
 
-    <div class="w-full max-w-2xl mb-12 px-2">
-        <input type="text" id="searchInput" onkeyup="searchScene()" 
-               placeholder="Tapez 'money'..." 
-               class="w-full bg-[#111] border-2 border-gray-800 p-5 md:p-6 rounded-3xl text-lg md:text-xl focus:outline-none focus:border-green-500 transition-all text-white shadow-2xl">
+    <div class="w-full max-w-2xl mb-12">
+        <input type="text" id="searchInput" onkeyup="searchScene()" placeholder="Tapez 'money'..." 
+               class="w-full bg-[#111] border-2 border-gray-800 p-6 rounded-3xl text-xl text-white focus:border-green-500 outline-none transition-all shadow-2xl">
     </div>
 
     <div id="playerSection" class="hidden w-full flex flex-col items-center">
-        <div id="videoContainer" class="video-container shadow-2xl neon-border"></div>
-        <div class="mt-8 text-center max-w-xl px-4">
-            <h2 id="clipTitle" class="text-2xl md:text-3xl font-bold text-white mb-2"></h2>
-            <p id="clipQuote" class="text-green-500 italic text-lg md:text-xl font-medium"></p>
-            <button onclick="alert('Préparation du téléchargement...')" class="mt-10 bg-white text-black font-black py-4 px-10 rounded-full hover:bg-green-500 transition-all transform hover:scale-105">
-                🚀 VIRALISER (TIKTOK)
-            </button>
+        <div id="videoContainer" class="video-container neon-border shadow-2xl">
+            <video id="mainVideo" controls autoplay loop playsinline class="w-full h-full object-cover">
+                <source src="./wolf.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+        </div>
+        <div class="mt-8 text-center max-w-xl">
+            <h2 class="text-3xl font-bold">The Wolf of Wall Street</h2>
+            <p class="text-green-500 italic text-xl mt-2">"I've been a rich man, and I've been a poor man."</p>
         </div>
     </div>
 
     <script>
-        const database = [
-            { 
-                keywords: ['money', 'argent', 'rich'], 
-                title: "The Wolf of Wall Street", 
-                quote: "I've been a rich man, and I've been a poor man.", 
-                // Ce lien est un extrait direct MP4 stable pour le test
-                videoUrl: "https://ia804703.us.archive.org/27/items/wolf-of-wall-street-money-clip/money.mp4" 
-            }
-        ];
-
         function searchScene() {
             const input = document.getElementById('searchInput').value.toLowerCase();
-            const result = database.find(item => item.keywords.some(key => input.includes(key)));
-            
             const playerSection = document.getElementById('playerSection');
-            const videoContainer = document.getElementById('videoContainer');
+            const video = document.getElementById('mainVideo');
 
-            if (result && input.length >= 3) {
+            if (input.includes('money')) {
                 playerSection.classList.remove('hidden');
-                videoContainer.innerHTML = `
-                    <video id="v1" controls autoplay loop playsinline class="w-full h-full object-cover">
-                        <source src="${result.videoUrl}" type="video/mp4">
-                        Votre navigateur bloque la lecture.
-                    </video>
-                `;
-                document.getElementById('clipTitle').innerText = result.title;
-                document.getElementById('clipQuote').innerText = `"${result.quote}"`;
+                video.play().catch(e => console.log("L'autostart a été bloqué, l'utilisateur doit cliquer sur play"));
             } else if (input.length === 0) {
                 playerSection.classList.add('hidden');
             }
