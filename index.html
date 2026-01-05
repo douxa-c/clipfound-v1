@@ -1,61 +1,46 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipFound | Viral Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 20px rgba(57, 255, 20, 0.1); }
-        .video-container { position: relative; width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #222; }
-    </style>
-</head>
-<body class="flex flex-col items-center p-6 min-h-screen">
-
-    <header class="mt-10 mb-10 text-center">
-        <h1 class="text-6xl font-black tracking-tighter italic text-white">CLIP<span class="text-green-500">FOUND</span></h1>
-        <div class="bg-green-500 text-black text-[10px] font-bold px-2 py-1 rounded inline-block mt-2">ALPHA V1.0 - WALL STREET EDITION</div>
-    </header>
-
-    <div class="w-full max-w-2xl mb-12">
-        <input type="text" id="searchInput" onkeyup="searchScene()" placeholder="Tapez 'money', 'sell' ou 'show me'..." 
-               class="w-full bg-[#111] border-2 border-gray-800 p-5 rounded-2xl text-xl focus:outline-none focus:border-green-500 transition-all text-white shadow-2xl">
-        <p class="text-gray-500 text-sm mt-3 text-center">Essaye les mots-clés du Loup de Wall Street</p>
-    </div>
-
-    <div id="playerSection" class="hidden w-full flex flex-col items-center">
-        <div class="video-container shadow-2xl">
-            <iframe id="videoFrame" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-        <div class="mt-6 text-center">
-            <h2 id="clipTitle" class="text-2xl font-bold text-green-500"></h2>
-            <p id="clipQuote" class="text-gray-400 italic mt-2"></p>
-            <button class="mt-8 bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-green-500 transition-all transform hover:scale-105">
-                🚀 GÉNÉRER POUR TIKTOK
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // Notre base de données "Smart" (Version Alpha)
-        const database = [
-            { keywords: ['money', 'argent', 'rich'], title: "The Wolf of Wall Street", quote: "I've been a rich man, and I've been a poor man.", url: "https://www.youtube.com/embed/Z96v4-6mPgg?start=10&autoplay=1" },
-            { keywords: ['sell', 'vendre', 'pen'], title: "The Wolf of Wall Street", quote: "Sell me this pen.", url: "https://www.youtube.com/embed/9UspZGJ-TrI?start=45&autoplay=1" },
-            { keywords: ['show me', 'money'], title: "Jerry Maguire", quote: "Show me the money!", url: "https://www.youtube.com/embed/VpbtV-B6VIs?start=70&autoplay=1" }
-        ];
-
-        function searchScene() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const result = database.find(item => item.keywords.some(key => input.includes(key)));
-            
-            if (result && input.length > 2) {
-                document.getElementById('playerSection').classList.remove('hidden');
-                document.getElementById('videoFrame').src = result.url;
-                document.getElementById('clipTitle').innerText = result.title;
-                document.getElementById('clipQuote').innerText = `"${result.quote}"`;
-            }
+<script>
+    // Nouvelle base de données avec des liens vidéos directs
+    const database = [
+        { 
+            keywords: ['money', 'argent', 'rich'], 
+            title: "The Wolf of Wall Street", 
+            quote: "I've been a rich man, and I've been a poor man.", 
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" // LIEN TEST (À remplacer par nos fichiers)
+        },
+        { 
+            keywords: ['sell', 'vendre', 'pen'], 
+            title: "The Wolf of Wall Street", 
+            quote: "Sell me this pen.", 
+            videoUrl: "https://www.w3schools.com/html/movie.mp4" // LIEN TEST
         }
-    </script>
-</body>
-</html>
+    ];
+
+    function searchScene() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        // On cherche si un mot-clé correspond
+        const result = database.find(item => item.keywords.some(key => input.includes(key)));
+        
+        const playerSection = document.getElementById('playerSection');
+        const videoFrame = document.getElementById('videoFrame');
+
+        if (result && input.length >= 3) {
+            playerSection.classList.remove('hidden');
+            // On remplace l'iframe par une balise vidéo pour plus de contrôle
+            playerSection.innerHTML = `
+                <div class="video-container shadow-2xl">
+                    <video controls autoplay class="w-full h-full">
+                        <source src="${result.videoUrl}" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                </div>
+                <div class="mt-6 text-center">
+                    <h2 class="text-2xl font-bold text-green-500">${result.title}</h2>
+                    <p class="text-gray-400 italic mt-2">"${result.quote}"</p>
+                    <button class="mt-8 bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-green-500 transition-all transform hover:scale-105">
+                        🚀 GÉNÉRER POUR TIKTOK
+                    </button>
+                </div>
+            `;
+        }
+    }
+</script>
