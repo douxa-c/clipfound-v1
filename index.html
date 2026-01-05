@@ -3,56 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipFound | Moteur de Recherche</title>
+    <title>ClipFound | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; display: flex; flex-col; items-center; justify-content: center; min-h-screen; margin: 0; }
-        .neon-border { border: 2px solid #39ff14; box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); }
-        .gradient-title { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 4rem; italic; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
+        .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 15px rgba(57, 255, 20, 0.2); }
     </style>
 </head>
-<body class="flex flex-col items-center p-6">
+<body class="p-6 flex flex-col items-center">
 
-    <header class="text-center mb-10">
-        <h1 class="gradient-title">CLIPFOUND</h1>
-        <p class="text-green-500 tracking-[0.3em] text-xs font-bold mt-2 uppercase">Système de Recherche Alpha</p>
+    <header class="my-10 text-center">
+        <h1 class="text-5xl font-black italic tracking-tighter">CLIP<span class="text-green-500">FOUND</span></h1>
+        <p id="status" class="text-gray-500 text-xs mt-2 italic text-green-500">● Système Connecté</p>
     </header>
 
-    <div class="w-full max-w-xl mb-10">
-        <input type="text" id="searchInput" oninput="runSearch()" placeholder="Tape 'ocean' ou 'video'..." 
-               class="w-full bg-[#111] border-2 border-gray-800 p-5 rounded-2xl text-xl text-white focus:border-green-500 outline-none shadow-2xl transition-all">
+    <div class="w-full max-w-2xl mb-10">
+        <input type="text" id="searchInput" oninput="search()" placeholder="Cherche : 'money', 'ocean' ou 'rabbit'..." 
+               class="w-full bg-[#111] border-2 border-gray-800 p-5 rounded-2xl text-xl text-white focus:border-green-500 outline-none transition-all shadow-2xl">
     </div>
 
-    <div id="displayArea" class="hidden w-full max-w-3xl flex flex-col items-center">
-        <div class="w-full aspect-video bg-black rounded-3xl overflow-hidden neon-border">
-            <video id="videoPlayer" controls autoplay loop playsinline class="w-full h-full object-cover">
-                <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-            </video>
+    <div id="resultArea" class="hidden w-full max-w-3xl flex flex-col items-center fade-in">
+        <div class="w-full aspect-video rounded-3xl overflow-hidden neon-border bg-black">
+            <video id="player" controls autoplay loop playsinline class="w-full h-full object-cover"></video>
         </div>
         <div class="mt-6 text-center">
-            <h2 class="text-2xl font-bold">Résultat Trouvé</h2>
-            <p class="text-gray-400">Le moteur ClipFound est opérationnel.</p>
+            <h2 id="vTitle" class="text-2xl font-bold"></h2>
+            <p id="vQuote" class="text-green-500 italic mt-2"></p>
         </div>
     </div>
 
     <script>
-        function runSearch() {
-            const val = document.getElementById('searchInput').value.toLowerCase();
-            const area = document.getElementById('displayArea');
-            const video = document.getElementById('videoPlayer');
+        let db = [];
 
-            // On déclenche si l'utilisateur tape au moins 3 lettres
-            if (val.includes('ocean') || val.includes('video')) {
-                area.classList.remove('hidden');
-                video.play().catch(function(error) {
-                    console.log("Lecture auto bloquée, l'utilisateur doit cliquer sur Play.");
-                });
-            } else if (val === "") {
+        // CHARGEMENT DE LA BASE DE DONNÉES
+        fetch('database.json')
+            .then(response => response.json())
+            .then(data => {
+                db = data;
+                console.log("Base de données chargée :", db.length, "scènes");
+            });
+
+        function search() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const area = document.getElementById('resultArea');
+            const player = document.getElementById('player');
+
+            if (query.length < 3) {
                 area.classList.add('hidden');
-                video.pause();
+                player.pause();
+                return;
+            }
+
+            // On cherche dans les keywords du JSON
+            const match = db.find(item => item.keywords.some(key => query.includes(key)));
+
+            if (match) {
+                area.classList.remove('hidden');
+                if (player.src !== match.videoUrl) {
+                    player.src = match.videoUrl;
+                    player.play();
+                }
+                document.getElementById('vTitle').innerText = match.title;
+                document.getElementById('vQuote').innerText = `"${match.quote}"`;
             }
         }
     </script>
-
 </body>
 </html>
