@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "keywords": ["ocean", "mer", "eau"],
+    "title": "Nature : Deep Ocean",
+    "quote": "L'immensité bleue du prototype.",
+    "videoUrl": "https://vjs.zencdn.net/v/oceans.mp4"
+  },
+  {
+    "id": 2,
+    "keywords": ["money", "argent", "rich"],
+    "title": "The Wolf of Wall Street",
+    "quote": "I've been a rich man, and I've been a poor man.",
+    "videoUrl": "https://raw.githubusercontent.com/the-coder-bull/test-video/main/wolf.mp4"
+  },
+  {
+    "id": 3,
+    "keywords": ["rabbit", "lapin", "animation"],
+    "title": "Big Buck Bunny",
+    "quote": "Test d'animation open-source.",
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4"
+  }
+]
