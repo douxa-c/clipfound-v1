@@ -3,55 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipFound | Ocean Engine</title>
+    <title>ClipFound | Moteur de Recherche</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; }
-        .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 20px rgba(57, 255, 20, 0.3); }
-        .video-container { width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid #222; }
-        .gradient-text { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        body { background-color: #050505; color: white; font-family: sans-serif; display: flex; flex-col; items-center; justify-content: center; min-h-screen; margin: 0; }
+        .neon-border { border: 2px solid #39ff14; box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); }
+        .gradient-title { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 4rem; italic; }
     </style>
 </head>
-<body class="flex flex-col items-center p-6 min-h-screen">
+<body class="flex flex-col items-center p-6">
 
-    <header class="mt-12 mb-12 text-center">
-        <h1 class="text-6xl italic gradient-text">CLIPFOUND</h1>
-        <div class="bg-green-500 text-black text-[10px] font-bold px-3 py-1 rounded-full mt-4 uppercase tracking-widest">Alpha v1.5 • Ocean Test</div>
+    <header class="text-center mb-10">
+        <h1 class="gradient-title">CLIPFOUND</h1>
+        <p class="text-green-500 tracking-[0.3em] text-xs font-bold mt-2 uppercase">Système de Recherche Alpha</p>
     </header>
 
-    <div class="w-full max-w-2xl mb-12">
-        <input type="text" id="searchInput" onkeyup="searchScene()" placeholder="Tapez 'ocean'..." 
-               class="w-full bg-[#111] border-2 border-gray-800 p-6 rounded-3xl text-xl text-white focus:border-green-500 outline-none transition-all shadow-2xl">
+    <div class="w-full max-w-xl mb-10">
+        <input type="text" id="searchInput" oninput="runSearch()" placeholder="Tape 'ocean' ou 'video'..." 
+               class="w-full bg-[#111] border-2 border-gray-800 p-5 rounded-2xl text-xl text-white focus:border-green-500 outline-none shadow-2xl transition-all">
     </div>
 
-    <div id="playerSection" class="hidden w-full flex flex-col items-center">
-        <div id="videoContainer" class="video-container neon-border">
-            <video id="mainVideo" controls autoplay loop playsinline class="w-full h-full object-cover">
+    <div id="displayArea" class="hidden w-full max-w-3xl flex flex-col items-center">
+        <div class="w-full aspect-video bg-black rounded-3xl overflow-hidden neon-border">
+            <video id="videoPlayer" controls autoplay loop playsinline class="w-full h-full object-cover">
                 <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la vidéo.
             </video>
         </div>
-        <div class="mt-8 text-center">
-            <h2 class="text-3xl font-bold">Nature : L'Océan</h2>
-            <p class="text-green-500 italic text-xl mt-2">"La preuve que le moteur ClipFound tourne !"</p>
+        <div class="mt-6 text-center">
+            <h2 class="text-2xl font-bold">Résultat Trouvé</h2>
+            <p class="text-gray-400">Le moteur ClipFound est opérationnel.</p>
         </div>
     </div>
 
     <script>
-        function searchScene() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const playerSection = document.getElementById('playerSection');
-            const video = document.getElementById('mainVideo');
+        function runSearch() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            const area = document.getElementById('displayArea');
+            const video = document.getElementById('videoPlayer');
 
-            // Si l'utilisateur tape "ocean", on montre la vidéo
-            if (input.includes('ocean')) {
-                playerSection.classList.remove('hidden');
-                video.play();
-            } else if (input.length === 0) {
-                playerSection.classList.add('hidden');
+            // On déclenche si l'utilisateur tape au moins 3 lettres
+            if (val.includes('ocean') || val.includes('video')) {
+                area.classList.remove('hidden');
+                video.play().catch(function(error) {
+                    console.log("Lecture auto bloquée, l'utilisateur doit cliquer sur Play.");
+                });
+            } else if (val === "") {
+                area.classList.add('hidden');
                 video.pause();
             }
         }
     </script>
+
 </body>
 </html>
