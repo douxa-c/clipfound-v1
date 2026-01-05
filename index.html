@@ -25,13 +25,13 @@
         <h1 class="text-5xl md:text-7xl font-black tracking-tighter italic gradient-text">CLIPFOUND</h1>
         <br>
         <div class="bg-green-500 text-black text-[10px] md:text-[12px] font-bold px-4 py-1.5 rounded-full inline-block mt-4 tracking-widest uppercase">
-            Alpha v1.2 • Real Content Edition
+            Alpha v1.3 • Wall Street Live
         </div>
     </header>
 
     <div class="w-full max-w-2xl mb-12 px-2">
         <input type="text" id="searchInput" onkeyup="searchScene()" 
-               placeholder="Essaye 'money', 'stay' ou 'pen'..." 
+               placeholder="Tapez 'money'..." 
                class="w-full bg-[#111] border-2 border-gray-800 p-5 md:p-6 rounded-3xl text-lg md:text-xl focus:outline-none focus:border-green-500 transition-all text-white shadow-2xl">
     </div>
 
@@ -40,7 +40,7 @@
         <div class="mt-8 text-center max-w-xl px-4">
             <h2 id="clipTitle" class="text-2xl md:text-3xl font-bold text-white mb-2"></h2>
             <p id="clipQuote" class="text-green-500 italic text-lg md:text-xl font-medium"></p>
-            <button class="mt-10 bg-white text-black font-black py-4 px-10 rounded-full hover:bg-green-500 transition-all">
+            <button onclick="alert('Préparation du téléchargement...')" class="mt-10 bg-white text-black font-black py-4 px-10 rounded-full hover:bg-green-500 transition-all transform hover:scale-105">
                 🚀 VIRALISER (TIKTOK)
             </button>
         </div>
@@ -52,19 +52,8 @@
                 keywords: ['money', 'argent', 'rich'], 
                 title: "The Wolf of Wall Street", 
                 quote: "I've been a rich man, and I've been a poor man.", 
-                videoUrl: "https://exit-15.com/clips/wolf_money.mp4" 
-            },
-            { 
-                keywords: ['sell', 'vendre', 'pen'], 
-                title: "The Wolf of Wall Street", 
-                quote: "Sell me this pen.", 
-                videoUrl: "https://exit-15.com/clips/sell_pen.mp4" 
-            },
-            { 
-                keywords: ['stay', 'don\'t leave', 'murph'], 
-                title: "Interstellar", 
-                quote: "Stay, Make him stay Murph!", 
-                videoUrl: "https://exit-15.com/clips/interstellar_stay.mp4" 
+                // Ce lien est un extrait direct MP4 stable pour le test
+                videoUrl: "https://ia804703.us.archive.org/27/items/wolf-of-wall-street-money-clip/money.mp4" 
             }
         ];
 
@@ -77,7 +66,12 @@
 
             if (result && input.length >= 3) {
                 playerSection.classList.remove('hidden');
-                videoContainer.innerHTML = `<video controls autoplay loop class="w-full h-full object-cover"><source src="${result.videoUrl}" type="video/mp4"></video>`;
+                videoContainer.innerHTML = `
+                    <video id="v1" controls autoplay loop playsinline class="w-full h-full object-cover">
+                        <source src="${result.videoUrl}" type="video/mp4">
+                        Votre navigateur bloque la lecture.
+                    </video>
+                `;
                 document.getElementById('clipTitle').innerText = result.title;
                 document.getElementById('clipQuote').innerText = `"${result.quote}"`;
             } else if (input.length === 0) {
