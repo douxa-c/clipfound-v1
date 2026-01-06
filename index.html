@@ -6,9 +6,27 @@
     <title>ClipFound | Creator Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        .gradient-text { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; padding: 0 15px; font-weight: 900; font-style: italic; }
+        
+        /* LE LOGO QUI PULSE */
+        .gradient-text { 
+            background: linear-gradient(to right, #fff, #39ff14); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding: 0 15px; 
+            font-weight: 900;
+            font-style: italic;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.2)); transform: scale(1); }
+            to { filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.6)); transform: scale(1.03); }
+        }
+
         .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 30px rgba(57, 255, 20, 0.15); }
         .video-container { position: relative; width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: all 0.5s ease; }
         .mode-tiktok { aspect-ratio: 9/16; max-width: 350px; }
@@ -21,7 +39,7 @@
         <h1 class="text-6xl md:text-7xl tracking-tighter gradient-text">CLIPFOUND</h1>
         <div class="block">
             <div class="bg-green-500 text-black text-[10px] font-bold px-4 py-1 rounded-full mt-4 uppercase tracking-[0.2em]">
-                DATABASE UPDATED • 7 SCENES
+                ALPHA v1.9 • ENGINE ACTIVE
             </div>
         </div>
     </header>
