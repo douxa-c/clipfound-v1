@@ -8,25 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
-        .gradient-text { 
-            background: linear-gradient(to right, #fff, #39ff14); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            padding: 0 15px; 
-            font-weight: 900;
-            font-style: italic;
-        }
-
+        .gradient-text { background: linear-gradient(to right, #fff, #39ff14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; padding: 0 15px; font-weight: 900; font-style: italic; }
         .neon-border { border: 1px solid #39ff14; box-shadow: 0 0 30px rgba(57, 255, 20, 0.15); }
         .video-container { position: relative; width: 100%; max-width: 800px; aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: all 0.5s ease; }
-        
-        /* Mode Vertical pour TikTok */
         .mode-tiktok { aspect-ratio: 9/16; max-width: 350px; }
         .mode-tiktok video { object-fit: cover; }
-
-        .search-glow:focus { box-shadow: 0 0 20px rgba(57, 255, 20, 0.2); border-color: #39ff14; }
     </style>
 </head>
 <body class="flex flex-col items-center p-4 md:p-10 min-h-screen">
@@ -35,18 +21,18 @@
         <h1 class="text-6xl md:text-7xl tracking-tighter gradient-text">CLIPFOUND</h1>
         <div class="block">
             <div class="bg-green-500 text-black text-[10px] font-bold px-4 py-1 rounded-full mt-4 uppercase tracking-[0.2em]">
-                CREATOR MODE ACTIVE
+                DATABASE UPDATED • 7 SCENES
             </div>
         </div>
     </header>
 
     <div class="w-full max-w-2xl mb-12 px-2">
         <input type="text" id="searchInput" oninput="search()" 
-               placeholder="Cherche : 'money', 'coffee'..." 
-               class="w-full bg-[#111] border-2 border-gray-800 p-6 rounded-3xl text-xl search-glow transition-all text-white shadow-2xl outline-none">
+               placeholder="Cherche : 'joker', 'bond', 'money'..." 
+               class="w-full bg-[#111] border-2 border-gray-800 p-6 rounded-3xl text-xl transition-all text-white shadow-2xl outline-none focus:border-green-500">
     </div>
 
-    <div id="resultArea" class="hidden w-full flex flex-col items-center animate-fade-in">
+    <div id="resultArea" class="hidden w-full flex flex-col items-center">
         <div id="vBox" class="video-container shadow-2xl neon-border">
             <video id="player" controls autoplay loop playsinline class="w-full h-full object-cover"></video>
         </div>
@@ -68,9 +54,13 @@
 
     <script>
         const db = [
-            { keywords: ['ocean'], title: "Deep Ocean", quote: "L'immensité bleue.", url: "https://vjs.zencdn.net/v/oceans.mp4" },
-            { keywords: ['money'], title: "Wolf of Wall Street", quote: "Rich vs Poor", url: "https://raw.githubusercontent.com/the-coder-bull/test-video/main/wolf.mp4" },
-            { keywords: ['coffee'], title: "Glengarry Glen Ross", quote: "Coffee is for closers!", url: "https://ia801509.us.archive.org/15/items/coffee-is-for-closers/coffee.mp4" }
+            { keywords: ['money', 'rich'], title: "The Wolf of Wall Street", quote: "I've been a rich man, and I've been a poor man.", url: "https://raw.githubusercontent.com/the-coder-bull/test-video/main/wolf.mp4" },
+            { keywords: ['ocean', 'sea'], title: "Nature", quote: "Deep Blue Ocean", url: "https://vjs.zencdn.net/v/oceans.mp4" },
+            { keywords: ['rabbit', 'fun'], title: "Big Buck Bunny", quote: "Animation Classic", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
+            { keywords: ['coffee', 'closer'], title: "Glengarry Glen Ross", quote: "Coffee is for closers!", url: "https://ia801509.us.archive.org/15/items/coffee-is-for-closers/coffee.mp4" },
+            { keywords: ['serious', 'joker'], title: "The Dark Knight", quote: "Why so serious?", url: "https://ia801306.us.archive.org/16/items/WhySoSerious_201804/WhySoSerious.mp4" },
+            { keywords: ['life', 'box'], title: "Forrest Gump", quote: "Life is like a box of chocolates.", url: "https://ia800201.us.archive.org/12/items/ForrestGump_201410/ForrestGump.mp4" },
+            { keywords: ['bond', 'name'], title: "James Bond", quote: "My name is Bond. James Bond.", url: "https://ia601300.us.archive.org/10/items/JamesBond007_201901/JamesBond.mp4" }
         ];
 
         function search() {
@@ -87,6 +77,8 @@
                 }
                 document.getElementById('vTitle').innerText = match.title;
                 document.getElementById('vQuote').innerText = `"${match.quote}"`;
+            } else if (query === "") {
+                area.classList.add('hidden');
             }
         }
 
@@ -96,22 +88,8 @@
 
         function downloadVideo() {
             const videoUrl = document.getElementById('player').src;
-            const a = document.createElement('a');
-            a.href = videoUrl;
-            a.download = 'clipfound-video.mp4';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            window.open(videoUrl, '_blank');
         }
     </script>
 </body>
 </html>
-const db = [
-    { keywords: ['money', 'rich'], title: "The Wolf of Wall Street", quote: "I've been a rich man, and I've been a poor man.", url: "https://raw.githubusercontent.com/the-coder-bull/test-video/main/wolf.mp4" },
-    { keywords: ['ocean', 'sea'], title: "Nature", quote: "Deep Blue Ocean", url: "https://vjs.zencdn.net/v/oceans.mp4" },
-    { keywords: ['rabbit', 'fun'], title: "Big Buck Bunny", quote: "Animation Classic", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
-    { keywords: ['coffee', 'closer'], title: "Glengarry Glen Ross", quote: "Coffee is for closers!", url: "https://ia801509.us.archive.org/15/items/coffee-is-for-closers/coffee.mp4" },
-    { keywords: ['serious', 'joker'], title: "The Dark Knight", quote: "Why so serious?", url: "https://ia801306.us.archive.org/16/items/WhySoSerious_201804/WhySoSerious.mp4" },
-    { keywords: ['life', 'box'], title: "Forrest Gump", quote: "Life is like a box of chocolates.", url: "https://ia800201.us.archive.org/12/items/ForrestGump_201410/ForrestGump.mp4" },
-    { keywords: ['bond', 'name'], title: "James Bond", quote: "My name is Bond. James Bond.", url: "https://ia801300.us.archive.org/10/items/JamesBond007_201901/JamesBond.mp4" }
-];
